@@ -6,7 +6,6 @@
     "allowJs": false,
     "declaration": true,
     "outDir": "dist",
-    "importHelpers": true,
     "strict": true,
     "noImplicitAny": false,
     "moduleResolution": "node",
