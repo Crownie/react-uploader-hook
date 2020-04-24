@@ -17,7 +17,7 @@ export interface FileUploaderProps {
 }
 
 export interface FileUploader {
-  onDrop: (files: File[]) => void;
+  onDrop: (files: File[] | FileList) => void;
   fileBags: FileBag[];
   retryUpload: (id: string) => void;
   removeFileBag: (id: string) => void;
@@ -89,7 +89,7 @@ export default function useFileUploader({
         }
       } catch (e) {
         let status: FileBag['status'] = 'failed';
-        updateFileBag(id, {status, httpStatus: e.response.status});
+        updateFileBag(id, {status, httpStatus: e?.response?.status});
       }
     },
     [getUploadParams, onUploaded, updateFileBag],
@@ -107,6 +107,11 @@ export default function useFileUploader({
 
   const onDrop = useCallback(
     (acceptedFiles) => {
+      // return if null or undefined
+      if (!acceptedFiles) {
+        return;
+      }
+      acceptedFiles = [...acceptedFiles]; // converts to array if FileList
       const arr: FileBag[] = acceptedFiles.map((file: File) => {
         const timeStamp = new Date().getTime();
         return {

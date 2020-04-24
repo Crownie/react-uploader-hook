@@ -3,6 +3,7 @@ import {act, renderHook} from '@testing-library/react-hooks';
 import axios from 'axios';
 import {
   failedUpload,
+  failedUploadWithNoResponse,
   successfulUpload,
   successfulUploadWithoutProgress,
 } from './mocks';
@@ -90,6 +91,13 @@ it('returns correct object', async () => {
   });
 
   expect(result.current.fileBags).toEqual([]);
+
+  // call onDrop with null
+  act(() => {
+    result.current.onDrop(null as any);
+  });
+
+  expect(result.current.fileBags).toEqual([]);
 });
 
 it('handles upload failure', async () => {
@@ -116,6 +124,23 @@ it('handles upload failure', async () => {
     progress: 0,
     status: 'failed',
     httpStatus: 403,
+  });
+
+  mockAxios.request.mockImplementationOnce(failedUploadWithNoResponse);
+  // retry - fail
+  act(() => {
+    result.current.retryUpload(id);
+  });
+
+  await waitForNextUpdate();
+
+  checkFileBag(result.current.fileBags[0], {
+    file,
+    formattedSize: '12 B',
+    progress: 0,
+    status: 'failed',
+    httpStatus: undefined,
+    responseData: null,
   });
 
   mockAxios.request.mockImplementationOnce(successfulUploadWithoutProgress);
