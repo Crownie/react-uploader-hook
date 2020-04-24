@@ -120,9 +120,9 @@ contain additional information to know why the upload failed.
 
 Call this function to trigger an upload. It accepts File[] or FileList as argument
 
-## retryUpload()
+### retryUpload()
 
-Call this function to retry a failed upload, Tt accepts the fileBag id as argument
+Call this function to retry a failed upload. It accepts the fileBag id as argument
 
 ## License
 
