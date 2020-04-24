@@ -6,3 +6,4 @@ tests
 .huskyrc
 jest.config.js
 src
+coverage
