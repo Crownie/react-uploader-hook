@@ -3,7 +3,7 @@ export const formatFileSize = (sizeInBytes: number) => {
   if (Math.abs(sizeInBytes) < thresh) {
     return sizeInBytes + ' B';
   }
-  const units = ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const units = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let u = -1;
   do {
     sizeInBytes /= thresh;
