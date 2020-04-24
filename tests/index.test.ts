@@ -92,7 +92,7 @@ it('returns correct object', async () => {
   expect(result.current.fileBags).toEqual([]);
 });
 
-it('handles failure', async () => {
+it('handles upload failure', async () => {
   const props = {
     getUploadParams() {
       return {method: 'put', url: 'http://dummy.com/api/upload'};
@@ -119,7 +119,6 @@ it('handles failure', async () => {
   });
 
   mockAxios.request.mockImplementationOnce(successfulUploadWithoutProgress);
-
   // retry
   act(() => {
     result.current.retryUpload(id);
@@ -138,7 +137,7 @@ it('handles failure', async () => {
     httpStatus: 200,
   });
 
-  // retry
+  // remove
   act(() => {
     result.current.removeFileBag(id);
   });
