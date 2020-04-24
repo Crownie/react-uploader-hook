@@ -81,7 +81,7 @@ export default function useFileUploader({
 
         const status: FileBag['status'] = 'uploaded';
         const updatedFileBag = updateFileBag(id, {
-          responseData: {...res.data},
+          responseData: res.data,
           status,
           httpStatus: res.status,
           meta,
