@@ -8,6 +8,8 @@
 > It can be used with `react-dropzone` or a simple `<input type="file"/>`
 > The key is calling the `onDrop(files)` with an array of `File`
 
+🖥️[Live Example](https://codesandbox.io/s/react-uploader-hook-example-b1w5q?file=/src/App.js)
+
 ## Install
 
 ```bash
@@ -21,20 +23,25 @@ yarn add react-uploader-hook
 ## Usage
 
 ```typescript jsx
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import useFileUploader from 'react-uploader-hook';
 
 const App = () => {
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-
-  const getUploadParams = useCallback(() => {
+  const getUploadParams = useCallback((file) => {
     // [💡] you can return custom request configurations here
-    return {method: 'put', url: 'http://dummyfile.io/api/upload'};
+    const form = new FormData();
+    form.append('file', file);
+    return {
+      method: 'post',
+      url: 'https://file.io?expires=1w',
+      headers: {'Content-Type': 'multipart/form-data'},
+      data: form,
+      meta: {'any-other-stuff': 'hello'},
+    };
   }, []);
 
   const onUploaded = useCallback((fileBag) => {
     // [💡] do whatever with the uploaded files
-    setUploadedFiles((prev) => [...prev, fileBag]);
   }, []);
 
   // [⭐]
@@ -50,7 +57,7 @@ const App = () => {
   return (
     <div>
       <input type="file" onChange={handleChange} />
-      <pre>{JSON.stringify(fileBags)}</pre>
+      <pre>{JSON.stringify(fileBags, null, 2)}</pre>
     </div>
   );
 };
