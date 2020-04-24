@@ -93,8 +93,8 @@ export default function useFileUploader({
         const status: FileBag['status'] = 'failed';
         const updatedFileBag = updateFileBag(id, {
           status,
-          httpStatus: e?.response?.status,
-          responseData: e?.response?.data,
+          httpStatus: e && e.response && e.response.status,
+          responseData: e && e.response && e.response.data,
         });
         if (updatedFileBag && onFailed) {
           onFailed(updatedFileBag);
