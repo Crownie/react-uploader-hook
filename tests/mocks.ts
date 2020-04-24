@@ -41,6 +41,10 @@ export const failedUploadWithNoResponse = async () => {
   return Promise.reject({});
 };
 
+export const failedUploadWithNoData = async () => {
+  return Promise.reject({response: {}});
+};
+
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
