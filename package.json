@@ -44,5 +44,13 @@
     "ts-jest": "24.3.0",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Crownie/react-uploader-hook.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Crownie/react-uploader-hook/issues"
+  },
+  "homepage": "https://github.com/Crownie/react-uploader-hook#readme"
 }
