@@ -2,6 +2,7 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![Linux Build][travis-image]][travis-url]
+[![codecov](https://codecov.io/gh/Crownie/react-uploader-hook/branch/master/graph/badge.svg)](https://codecov.io/gh/Crownie/react-uploader-hook)
 [![Github License][license-image]][license-url]
 
 > React Uploader Hook is a hook simply for file upload
@@ -62,6 +63,66 @@ const App = () => {
   );
 };
 ```
+
+### Functions and parameters
+
+`useFileUploader()` takes in an object of type `FileUploaderProps` as an argument
+
+```typescript jsx
+export interface FileUploaderProps {
+  getUploadParams: (file: File) => Promise<UploadParams> | UploadParams;
+  onUploaded?: (fileBag: FileBag) => void;
+  onFailed?: (fileBag: FileBag) => void;
+}
+```
+
+### getUploadParams()
+
+This is a callback function that will be called before a request is sent to the server to upload each file.
+The function must return an object in the following shape
+
+```typescript jsx
+export interface UploadParams {
+  url: string;
+  method: 'put' | 'post' | 'patch' | string;
+  headers?: {[key: string]: any};
+  data?: any; // the file to upload or FormData in the case of multipart form
+  meta?: {[key: string]: any}; // any extra data to forward to the FileBag.meta
+}
+```
+
+### onUploaded()
+
+This function will be called on successful upload of each file. The first argument will be `fileBag`, a wrapper object for the uploaded file
+the status field will contain the value `'uploaded'` and `'progress'` 100
+
+```typescript jsx
+export interface FileBag {
+  id: string;
+  file: File;
+  uploadUrl: string;
+  progress: number; // 0 - 100
+  formattedSize: string;
+  status: 'uploading' | 'uploaded' | 'failed';
+  httpStatus: number; // 200, 404 etc.
+  message: string;
+  responseData: any; // the response body from the server
+  meta?: {[key: string]: any}; // any extra data forwarded from getUploadParams()
+}
+```
+
+### onFailed()
+
+Similar to onUploaded(), however the status will be `'failed'`. `httpStatus` and `responseData` would
+contain additional information to know why the upload failed.
+
+### onDrop()
+
+Call this function to trigger an upload. It accepts File[] or FileList as argument
+
+## retryUpload()
+
+Call this function to retry a failed upload, Tt accepts the fileBag id as argument
 
 ## License
 
