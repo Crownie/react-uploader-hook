@@ -14,6 +14,7 @@ export interface UploadParams {
 export interface FileUploaderProps {
   getUploadParams: (file: File) => Promise<UploadParams> | UploadParams;
   onUploaded?: (fileBag: FileBag) => void;
+  onFailed?: (fileBag: FileBag) => void;
 }
 
 export interface FileUploader {
@@ -27,6 +28,7 @@ export interface FileUploader {
 export default function useFileUploader({
   getUploadParams,
   onUploaded,
+  onFailed,
 }: FileUploaderProps): FileUploader {
   const [fileBags, setFileBags] = useState<FileBag[]>([]);
   const [newFileBags, setNewFileBags] = useState<FileBag[]>([]);
@@ -88,12 +90,15 @@ export default function useFileUploader({
           onUploaded(updatedFileBag);
         }
       } catch (e) {
-        let status: FileBag['status'] = 'failed';
-        updateFileBag(id, {
+        const status: FileBag['status'] = 'failed';
+        const updatedFileBag = updateFileBag(id, {
           status,
           httpStatus: e?.response?.status,
           responseData: e?.response?.data,
         });
+        if (updatedFileBag && onFailed) {
+          onFailed(updatedFileBag);
+        }
       }
     },
     [getUploadParams, onUploaded, updateFileBag],

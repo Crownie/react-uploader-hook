@@ -105,6 +105,10 @@ it('handles upload failure', async () => {
     getUploadParams() {
       return {method: 'put', url: 'http://dummy.com/api/upload'};
     },
+    onFailed(fileBag: FileBag) {
+      expect(fileBag.status).toEqual('failed');
+      expect(fileBag.progress).toEqual(0);
+    },
   };
 
   // init
