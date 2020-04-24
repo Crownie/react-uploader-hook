@@ -1,0 +1,48 @@
+{
+  "name": "react-uploader-hook",
+  "version": "1.0.2",
+  "description": "React hook for file upload",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "jsnext:main": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "build": "npm run clean && tsc && tsc -m es6 --outDir dist/esm",
+    "clean": "rimraf dist",
+    "prettier": "prettier --write \"*(src|tests)/**/*.*(ts|tsx)\"",
+    "test": "jest --runInBand",
+    "prepublishOnly": "npm run build",
+    "postpublish": "git push --tags"
+  },
+  "author": "Tobi Ayilara",
+  "license": "MIT",
+  "keywords": [
+    "uploader",
+    "hook",
+    "react",
+    "use-uploader",
+    "use-file-uploader",
+    "file-uploader"
+  ],
+  "dependencies": {
+    "axios": "^0.19.2"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1"
+  },
+  "devDependencies": {
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.2",
+    "husky": "^4.2.5",
+    "jest": "24.9.0",
+    "prettier": "^2.0.2",
+    "pretty-quick": "^2.0.1",
+    "react": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "24.3.0",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
+  }
+}

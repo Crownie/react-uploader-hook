@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es6",
+    "lib": ["esnext", "dom", "es2015.promise"],
+    "allowJs": false,
+    "declaration": true,
+    "outDir": "dist",
+    "importHelpers": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "rootDirs": ["src", "test"],
+    "esModuleInterop": true
+  },
+  "exclude": ["node_modules", "dist", "tests"]
+}

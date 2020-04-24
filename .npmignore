@@ -1,0 +1,8 @@
+tsconfig.json
+.prettierrc
+tests
+.idea
+.travis.yml
+.huskyrc
+jest.config.js
+src
