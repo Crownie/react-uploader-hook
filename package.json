@@ -1,6 +1,6 @@
 {
   "name": "react-uploader-hook",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React hook for file upload",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
