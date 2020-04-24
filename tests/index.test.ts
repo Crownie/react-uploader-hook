@@ -3,6 +3,7 @@ import {act, renderHook} from '@testing-library/react-hooks';
 import axios from 'axios';
 import {
   failedUpload,
+  failedUploadWithNoData,
   failedUploadWithNoResponse,
   successfulUpload,
   successfulUploadWithoutProgress,
@@ -148,6 +149,12 @@ it('handles upload failure', async () => {
     status: 'failed',
     httpStatus: undefined,
     responseData: undefined,
+  });
+
+  mockAxios.request.mockImplementationOnce(failedUploadWithNoData);
+  // retry - fail
+  act(() => {
+    result.current.retryUpload(id);
   });
 
   mockAxios.request.mockImplementationOnce(successfulUploadWithoutProgress);
