@@ -124,6 +124,9 @@ it('handles upload failure', async () => {
     progress: 0,
     status: 'failed',
     httpStatus: 403,
+    responseData: {
+      message: 'unauthorized',
+    },
   });
 
   mockAxios.request.mockImplementationOnce(failedUploadWithNoResponse);
@@ -140,7 +143,7 @@ it('handles upload failure', async () => {
     progress: 0,
     status: 'failed',
     httpStatus: undefined,
-    responseData: null,
+    responseData: undefined,
   });
 
   mockAxios.request.mockImplementationOnce(successfulUploadWithoutProgress);

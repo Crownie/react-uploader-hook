@@ -89,7 +89,11 @@ export default function useFileUploader({
         }
       } catch (e) {
         let status: FileBag['status'] = 'failed';
-        updateFileBag(id, {status, httpStatus: e?.response?.status});
+        updateFileBag(id, {
+          status,
+          httpStatus: e?.response?.status,
+          responseData: e?.response?.data,
+        });
       }
     },
     [getUploadParams, onUploaded, updateFileBag],
