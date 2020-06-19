@@ -5,9 +5,9 @@
 [![codecov](https://codecov.io/gh/Crownie/react-uploader-hook/branch/master/graph/badge.svg)](https://codecov.io/gh/Crownie/react-uploader-hook)
 [![Github License][license-image]][license-url]
 
-> React Uploader Hook is a hook simply for file upload
-> It can be used with [`react-dropzone`](https://www.npmjs.com/package/react-dropzone) or a simple `<input type="file"/>`
-> The key is calling the `onDrop(files)` with `FileList` or an array of `File`
+React Uploader Hook is a hook simply for file upload
+It can be used with [`react-dropzone`](https://www.npmjs.com/package/react-dropzone) or a simple `<input type="file"/>`
+The key is calling the `onDrop(files)` with `FileList` or an array of `File`
 
 🖥️[Live Example](https://codesandbox.io/s/react-uploader-hook-example-b1w5q?file=/src/App.js)
 
