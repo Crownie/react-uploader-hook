@@ -4,11 +4,9 @@
   "description": "React hook for file upload",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "jsnext:main": "dist/esm/index.js",
-  "module": "dist/esm/index.js",
+  "module": "dist/index.js",
   "scripts": {
-    "build": "npm run clean && tsc && tsc -m es6 --outDir dist/esm",
-    "clean": "rimraf dist",
+    "build": "rimraf dist && tsc",
     "prettier": "prettier --write \"*(src|tests)/**/*.*(ts|tsx)\"",
     "test": "jest --runInBand",
     "prepublishOnly": "npm run build",
