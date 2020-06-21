@@ -9,6 +9,7 @@
     "build": "rimraf dist && tsc",
     "prettier": "prettier --write \"*(src|tests)/**/*.*(ts|tsx)\"",
     "test": "jest --runInBand",
+    "preversion": "npm test && npm run build",
     "prepublishOnly": "npm run build",
     "postpublish": "git push --tags"
   },
