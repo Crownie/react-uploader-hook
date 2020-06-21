@@ -13,8 +13,8 @@ export interface UploadParams {
 
 export interface FileUploaderProps {
   getUploadParams: (file: File) => Promise<UploadParams> | UploadParams;
-  onUploaded?: (fileBag: FileBag) => void;
-  onFailed?: (fileBag: FileBag) => void;
+  onUploaded?: (fileBag: FileBag, allUploaded: FileBag[]) => void;
+  onFailed?: (fileBag: FileBag, allFailed: FileBag[]) => void;
 }
 
 export interface FileUploader {
@@ -48,15 +48,27 @@ export default function useFileUploader({
   );
 
   const updateFileBag = useCallback(
-    (id, data: FileBag | any) => {
-      let index = findFileBagIndexById(id);
-      if (index >= 0) {
-        fileBags[index] = {...fileBags[index], ...data};
-        setFileBags([...fileBags]);
-        return fileBags[index];
-      }
+    async (
+      id,
+      data: FileBag | any,
+    ): Promise<{updatedFileBag: FileBag; fileBags: FileBag[]}> => {
+      // looks nasty. this is updating the fileBags and also making sure that it can return the latest data
+      const {updatedFileBag, fileBags} = await new Promise((resolve) => {
+        setFileBags((prevFileBags) => {
+          let index = findFileBagIndexById(id);
+          if (index < 0) {
+            return prevFileBags;
+          }
+          prevFileBags[index] = {...prevFileBags[index], ...data};
+          const updatedFileBag = prevFileBags[index];
+          const nextFileBags = [...prevFileBags];
+          resolve({updatedFileBag, fileBags: nextFileBags});
+          return nextFileBags;
+        });
+      });
+      return {updatedFileBag, fileBags};
     },
-    [fileBags, setFileBags, findFileBagIndexById],
+    [setFileBags, findFileBagIndexById],
   );
 
   const uploadFile = useCallback(
@@ -80,24 +92,31 @@ export default function useFileUploader({
         });
 
         const status: FileBag['status'] = 'uploaded';
-        const updatedFileBag = updateFileBag(id, {
+        const {updatedFileBag, fileBags} = await updateFileBag(id, {
           responseData: res.data,
           status,
           httpStatus: res.status,
           meta,
         });
         if (updatedFileBag && onUploaded) {
-          onUploaded(updatedFileBag);
+          const uploadedFileBags = fileBags.filter(
+            ({status}) => status === 'uploaded',
+          );
+          onUploaded(updatedFileBag, uploadedFileBags);
         }
       } catch (e) {
         const status: FileBag['status'] = 'failed';
-        const updatedFileBag = updateFileBag(id, {
+        const {updatedFileBag, fileBags} = await updateFileBag(id, {
           status,
           httpStatus: e && e.response && e.response.status,
           responseData: e && e.response && e.response.data,
         });
+
         if (updatedFileBag && onFailed) {
-          onFailed(updatedFileBag);
+          const failedFileBags = fileBags.filter(
+            ({status}) => status === 'failed',
+          );
+          onFailed(updatedFileBag, failedFileBags);
         }
       }
     },
@@ -105,10 +124,13 @@ export default function useFileUploader({
   );
 
   const retryUpload = useCallback(
-    (id) => {
-      const fileBag = updateFileBag(id, {httpStatus: null, responseData: null});
-      if (fileBag) {
-        uploadFile(fileBag.file, id);
+    async (id) => {
+      const {updatedFileBag} = await updateFileBag(id, {
+        httpStatus: null,
+        responseData: null,
+      });
+      if (updatedFileBag) {
+        uploadFile(updatedFileBag.file, id);
       }
     },
     [fileBags, findFileBagIndexById, uploadFile],
