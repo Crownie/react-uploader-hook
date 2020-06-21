@@ -1,5 +1,7 @@
 import {AxiosRequestConfig} from 'axios';
 
+const uploadedUrl = 'http://dummy.com/image.png';
+
 export const successfulUpload = async ({
   onUploadProgress,
 }: AxiosRequestConfig) => {
@@ -14,7 +16,7 @@ export const successfulUpload = async ({
   }
   return Promise.resolve({
     status: 200,
-    data: {uploadedUrl: 'http://dummy.com/image.jpg'},
+    data: {uploadedUrl},
   });
 };
 
@@ -27,7 +29,7 @@ export const successfulUploadWithoutProgress = async ({
   }
   return Promise.resolve({
     status: 200,
-    data: {uploadedUrl: 'http://dummy.com/image.jpg'},
+    data: {uploadedUrl},
   });
 };
 
