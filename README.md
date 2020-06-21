@@ -94,7 +94,7 @@ export interface UploadParams {
 ### onUploaded()
 
 This function will be called on successful upload of each file. The first argument will be `fileBag`, a wrapper object for the uploaded file
-the status field will contain the value `'uploaded'` and `'progress'` 100
+the status field will contain the value `'uploaded'` and `'progress'` 100. The second argument will be an array of all uploaded `fileBags`
 
 ```typescript jsx
 export interface FileBag {
@@ -113,8 +113,8 @@ export interface FileBag {
 
 ### onFailed()
 
-Similar to onUploaded(), however the status will be `'failed'`. `httpStatus` and `responseData` would
-contain additional information to know why the upload failed.
+Similar to onUploaded(), however the status will be `'failed'`. Then `httpStatus` and `responseData` would
+contain additional information to know why the upload failed. The second argument will be an array of all failed `fileBags`
 
 ### onDrop()
 
