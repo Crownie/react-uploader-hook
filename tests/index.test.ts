@@ -24,6 +24,10 @@ const file = new File(['(⌐□_□)'], 'chucknorris.png', {
   type: 'image/png',
 });
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 it('returns correct object', async () => {
   const props: FileUploaderProps = {
     getUploadParams: (f) => {
